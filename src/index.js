@@ -70,13 +70,22 @@ document.addEventListener('DOMContentLoaded', e => {
   }
 
   dogInfo.addEventListener('click', e => {
+    
     if (e.target.matches('button.good-bad')){
+      const array = Array.from(dogBar.children)
       if (e.target.innerText.includes('Good')){
         dogPatch(e.target)
         e.target.innerText = "Bad Dog!"
+        if (dogFilter.innerText.includes('ON') ){
+          const found = array.find(span => span.dataset.dogId === e.target.dataset.dogId)
+          found.style.display = "none"
+        }
       } else {
         dogPatch(e.target)
         e.target.innerText = "Good Dog!"
+        const found = array.find(span => span.dataset.dogId === e.target.dataset.dogId)
+        found.style.display = "flex"
+
       }
     }
   })
