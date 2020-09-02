@@ -51,3 +51,105 @@ When you have the pup's information, the dog info `div` should have the followin
 When a user clicks on the Filter Good Dogs button, two things should happen:
  - The button's text should change from "Filter good dogs: OFF" to "Filter good dogs: ON", or vice versa.
  - If the button now says "ON" (meaning the filter is on), then the Dog Bar should only show pups whose isGoodDog attribute is true. If the filter is off, the Dog Bar should show all pups (like normal).
+
+
+
+```
+/*
+
+make global constant PUPS_URL with api endpoint 'http://localhost:3000/pups'
+
+See a horizontal menu of dogs
+
+- make function called renderDog that takes dog object as argument
+        - select div with id #dob-bar
+        - create span element and set its innerText to dog.name
+        - set span.dataset.dogId equal to dog.id
+        - set span.dataset.dogName equal to dog.name
+        - set span.dataset.dogGoodness equal to dog.isGoodDog
+        - set span.dataset.dogImage equal to dog.image
+        - append span to div
+
+- make function called renderDogs that takes dogs response array
+        - select div with id 'dog-bar'
+        - clear the div.innerHTML by setting it to a blank array
+        - foreach dog of dogs, call renderDog and pass the dog object as argument
+
+
+- make function called getAllDogs 
+        - make fetch statement
+        - on 2nd then, pass dogs array response to a call to renderDogs function
+
+See a long button that says 'Filter good dogs: ON' or off
+
+make function called moreInfo that takes a dog object as its argument
+        - select div with id #dog-info
+        - clear div#dog-info.innerHTML
+        - create img element
+        - set img.src equal to dog.image
+        - create h2 element
+        - set h2 innerText equal to dog.name
+        - create button element
+        - set button.className equal to 'dog-goodness'
+        - set button.dataset.dogId equal to dog.id
+        - set button.dataset.dogGoodness equal to dog.isGoodDog
+        - set button.innerText to equal 'Good Dog!' if dog.isGoodDog else 'Bad Dog!'
+        - append to div#dog-info: 
+            * img
+            * h2
+            * button
+
+make function called changeGoodness that takes dogId and dogGoodness as arguments
+    - declare const dogObj
+        - set dogObj.id = dogId
+        - set dogObj.isGoodDog = dogGoodness
+    - declare const configObj
+        - method: "PATCH"
+        - headers
+        - body: JSON.stringify(dogObj)
+    - make fetch statement and interpolate PUPS_URL and dogId for the url
+        - call moreInfo function and pass the dog response object as an argument
+
+
+make a function called getGoodDogs
+    - fetch statement to get dogs array response
+        - in 2nd .then
+            - receive dogs response array
+            - declare a const goodDogs equal to dogs.filter where dog.isGoodDog is equal to true
+            - call renderDogs and pass goodDogs as its argument
+
+make clickHandler with addEventListener
+
+    - Click on dog spans in the dog bar and see more info
+        - if e.target.closest 'span' -- if the closest element to e.target is span 
+            - declare a const dog and set its attributes
+                - id: e.target.dataset.dogId
+                - name: e.target.dataset.dogName
+                - isGoodDog: e.target.dataset.dogGoodness
+                - image: e.target.dataset.dogImage
+            - call moreInfo function and pass the dog object as its argument
+    
+    - Click on the button to toggle the button's value between 'good dog' or 'bad dog'
+        - if e.target.matches '.dog-goodness'
+            - if e.target.dataset.dogGoodness
+              - call changeGoodness function and pass e.target.dataset.dogId and false as its arguments
+            - else
+              - call changeGoodness function and pass e.target.dataset.dogId and true as its arguments
+
+
+    - Click the filter button to toggle and sort the horizontal menu between good and bad
+        - if e.target.matches '#good-dog-filter'
+            - if e.target.dataset.toggle is equal to 'off'
+                - call getGoodDogs function
+                - set e.target.dataset.toggle equal to 'on'
+                - set e.target.innerText equal to 'Filter good dogs: ON'
+            - else 
+                - call getAllDogs function
+                - set e.target.dataset.toggle equal to 'off'
+                - set e.target.innerText equal to 'Filter good dogs: OFF'
+
+
+
+
+*/
+```
